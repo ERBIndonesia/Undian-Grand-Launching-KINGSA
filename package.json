@@ -1,0 +1,19 @@
+{
+  "name": "kingsa-slot-undian",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website undian slot nama 1.000 sampai 10.000 peserta, siap deploy ke Vercel.",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "node build.js"
+  },
+  "keywords": [
+    "undian",
+    "slot",
+    "lucky-draw",
+    "vercel",
+    "github"
+  ],
+  "author": "KINGSA",
+  "license": "MIT"
+}
