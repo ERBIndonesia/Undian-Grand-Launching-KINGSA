@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Website undian slot nama 1.000 sampai 10.000 peserta, siap deploy ke GitHub dan Vercel." />
+  <title>KINGSA Slot Undian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-ornament bg-ornament-one"></div>
+  <div class="bg-ornament bg-ornament-two"></div>
+
+  <main class="app-shell">
+    <section class="hero-card">
+      <div class="hero-copy">
+        <p class="eyebrow">Premium Lucky Draw System</p>
+        <h1>KINGSA SLOT UNDIAN</h1>
+        <p class="subtitle">Upload 1.000–10.000 nama, jalankan animasi scrolling slot, lalu pilih pemenang secara acak tanpa duplikat.</p>
+      </div>
+      <div class="hero-actions">
+        <button id="fullscreenBtn" class="btn btn-ghost" type="button">Mode Fullscreen</button>
+        <button id="themeBtn" class="btn btn-ghost" type="button">Tema Gold</button>
+      </div>
+    </section>
+
+    <section class="dashboard-grid">
+      <aside class="panel setup-panel">
+        <div class="panel-header">
+          <div>
+            <span class="section-kicker">01</span>
+            <h2>Data Peserta</h2>
+          </div>
+          <span id="storageStatus" class="badge">Local Ready</span>
+        </div>
+
+        <div class="upload-zone" id="dropZone">
+          <input id="fileInput" type="file" accept=".csv,.txt,text/csv,text/plain" hidden />
+          <div class="upload-icon">⬆</div>
+          <h3>Upload CSV / TXT</h3>
+          <p>Format paling aman: satu nama per baris, atau CSV dengan kolom <strong>nama</strong>.</p>
+          <button id="chooseFileBtn" class="btn btn-primary" type="button">Pilih File</button>
+        </div>
+
+        <label class="field-label" for="manualInput">Atau paste nama manual</label>
+        <textarea id="manualInput" class="manual-input" placeholder="Contoh:\nAhmad Fauzi\nBudi Santoso\nCitra Lestari"></textarea>
+
+        <div class="control-row">
+          <button id="loadManualBtn" class="btn btn-secondary" type="button">Muat Data</button>
+          <button id="sampleBtn" class="btn btn-ghost" type="button">Pakai Sample 1000</button>
+        </div>
+
+        <div class="setting-box">
+          <label class="toggle-line">
+            <input id="uniqueNames" type="checkbox" checked />
+            <span>Hapus nama duplikat saat import</span>
+          </label>
+          <label class="toggle-line">
+            <input id="noRepeatWinner" type="checkbox" checked />
+            <span>Pemenang tidak bisa menang lagi</span>
+          </label>
+          <label class="toggle-line">
+            <input id="soundToggle" type="checkbox" checked />
+            <span>Aktifkan sound effect</span>
+          </label>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>Total Data</span>
+            <strong id="totalParticipants">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>Sisa Undian</span>
+            <strong id="availableParticipants">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>Pemenang</span>
+            <strong id="winnerCount">0</strong>
+          </div>
+        </div>
+
+        <div id="dataMessage" class="message-box info">Belum ada data peserta. Upload minimal 1.000 nama.</div>
+      </aside>
+
+      <section class="panel slot-panel">
+        <div class="panel-header slot-header">
+          <div>
+            <span class="section-kicker">02</span>
+            <h2>Mesin Slot Nama</h2>
+          </div>
+          <div class="draw-config">
+            <label for="drawCount">Jumlah Pemenang</label>
+            <input id="drawCount" type="number" min="1" max="100" value="1" />
+          </div>
+        </div>
+
+        <div class="slot-machine" aria-live="polite">
+          <div class="slot-glow"></div>
+          <div class="slot-frame">
+            <div class="reel-mask">
+              <ul id="reelList" class="reel-list">
+                <li>UPLOAD DATA DULU</li>
+                <li>KINGSA</li>
+                <li>HEBAT MULIA SEJAHTERA</li>
+                <li>SIAP UNDIAN</li>
+                <li>GOOD LUCK</li>
+                <li>UPLOAD DATA DULU</li>
+                <li>KINGSA</li>
+              </ul>
+              <div class="center-marker"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="winner-showcase" id="winnerShowcase">
+          <p>Pemenang akan tampil di sini</p>
+          <h3 id="winnerName">-</h3>
+        </div>
+
+        <div class="main-controls">
+          <button id="startBtn" class="btn btn-start" type="button" disabled>Mulai Slot</button>
+          <button id="stopBtn" class="btn btn-stop" type="button" disabled>Stop & Pilih</button>
+          <button id="quickDrawBtn" class="btn btn-secondary" type="button" disabled>Quick Draw</button>
+        </div>
+
+        <div class="secondary-controls">
+          <button id="resetWinnersBtn" class="btn btn-ghost" type="button">Reset Pemenang</button>
+          <button id="clearAllBtn" class="btn btn-ghost danger" type="button">Hapus Semua Data</button>
+          <button id="exportBtn" class="btn btn-ghost" type="button" disabled>Export Pemenang CSV</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel winner-panel">
+      <div class="panel-header">
+        <div>
+          <span class="section-kicker">03</span>
+          <h2>Riwayat Pemenang</h2>
+        </div>
+        <span id="lastDrawTime" class="badge">Belum ada undian</span>
+      </div>
+      <div id="winnerList" class="winner-list empty">
+        <p>Belum ada pemenang.</p>
+      </div>
+    </section>
+  </main>
+
+  <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+  <template id="winnerItemTemplate">
+    <article class="winner-item">
+      <span class="winner-number"></span>
+      <strong class="winner-person"></strong>
+      <small class="winner-time"></small>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
